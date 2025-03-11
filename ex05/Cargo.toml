@@ -1,0 +1,11 @@
+[package]
+name = "ex05"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+binary-tree = "0.2.0"
+
+[[bin]]
+name = "ex05"
+path = "main.rs"
