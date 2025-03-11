@@ -1,0 +1,10 @@
+[package]
+name = "ex03"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+
+[[bin]]
+name = "ex03"
+path = "main.rs"
