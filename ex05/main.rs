@@ -1,9 +1,10 @@
-mod functions;
+use boolean_algebra::btree::*;
+use boolean_algebra::*;
 
 fn main() {
-    // functions::print_binarytree_char(&functions::create_bool_algebra_binary_tree("AB&"));
-    functions::print_binarytree_char(&functions::create_bool_algebra_binary_tree("AAC|B|="));
-    // functions::create_reverse_polish_notation_from_btree(
-    //     &functions::create_bool_algebra_binary_tree("AAC|B|="),
-    // );
+    let formula = formula::generate_symbolic_rpn(200);
+    println!("{}", formula);
+    let binary_tree = conversion::rpn_to_btree(&formula);
+    println!("{}", conversion::btree_to_rpn(&binary_tree));
+    print_binarytree_char(&binary_tree);
 }
