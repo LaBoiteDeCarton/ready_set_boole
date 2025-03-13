@@ -1,4 +1,5 @@
 use crate::formula;
+use rand::seq::SliceRandom;
 
 pub fn powerset(set: Vec<i32>) -> Vec<Vec<i32>> {
     let mut result: Vec<Vec<i32>> = Vec::new();
@@ -93,4 +94,13 @@ pub fn eval_set(formula: &str, sets: &Vec<Vec<i32>>) -> Vec<i32> {
     } else {
         panic!("Formula did not result in a single boolean value");
     }
+}
+
+pub fn generate_sets(size: usize, max_element: i32) -> Vec<Vec<i32>> {
+    let mut rng = rand::rng();
+    let powerset = powerset((1..=max_element).collect::<Vec<_>>());
+    let mut sets_to_shuffle: Vec<Vec<i32>> = powerset.clone().into_iter().collect();
+    sets_to_shuffle.shuffle(&mut rng);
+    sets_to_shuffle.truncate(size);
+    return sets_to_shuffle;
 }

@@ -39,7 +39,7 @@ fn one_check() {
 
 fn multiple_random_check() {
     for _ in 0..100 {
-        one_check();
+        one_check_verbose();
     }
 }
 
