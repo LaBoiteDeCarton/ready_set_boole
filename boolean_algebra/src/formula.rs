@@ -1,4 +1,7 @@
+use crate::conversion;
+use crate::rewriter;
 use rand::prelude::*;
+use std::collections::HashMap;
 
 pub fn eval_formula(formula: &str) -> bool {
     let mut instructions = Vec::new();
@@ -70,6 +73,94 @@ pub fn eval_formula(formula: &str) -> bool {
     }
 }
 
+pub fn sat(formula: &str) -> bool {
+    let mut variables = Vec::new();
+    for c in formula.chars() {
+        if ('A'..='Z').contains(&c) && !variables.contains(&c) {
+            variables.push(c);
+        }
+    }
+    let max_value = 1 << variables.len();
+    for i in 0..max_value {
+        let bits: Vec<char> = (0..variables.len())
+            .map(|idx| if (i >> idx) & 1 == 1 { '1' } else { '0' })
+            .collect();
+        let letter_to_index: HashMap<char, usize> = variables
+            .iter()
+            .enumerate()
+            .map(|(idx, &ch)| (ch, idx))
+            .collect();
+        let replaced_formula = formula
+            .chars()
+            .map(|c| {
+                if let Some(&idx) = letter_to_index.get(&c) {
+                    bits[idx].to_string()
+                } else {
+                    c.to_string()
+                }
+            })
+            .collect::<String>();
+        let result = eval_formula(&replaced_formula);
+        if result {
+            return true;
+        }
+    }
+    false
+}
+
+pub fn formula_equivalence(formula1: &str, formula2: &str) -> bool {
+    let mut variables = Vec::new();
+    for c in formula1.chars() {
+        if ('A'..='Z').contains(&c) && !variables.contains(&c) {
+            variables.push(c);
+        }
+    }
+    for c in formula2.chars() {
+        if ('A'..='Z').contains(&c) && !variables.contains(&c) {
+            return false;
+        }
+    }
+    let max_value = 1 << variables.len();
+    for i in 0..max_value {
+        let bits: Vec<char> = (0..variables.len())
+            .map(|idx| if (i >> idx) & 1 == 1 { '1' } else { '0' })
+            .collect();
+        let letter_to_index: HashMap<char, usize> = variables
+            .iter()
+            .enumerate()
+            .map(|(idx, &ch)| (ch, idx))
+            .collect();
+
+        let replaced_formula1 = formula1
+            .chars()
+            .map(|c| {
+                if let Some(&idx) = letter_to_index.get(&c) {
+                    bits[idx].to_string()
+                } else {
+                    c.to_string()
+                }
+            })
+            .collect::<String>();
+        let result1 = eval_formula(&replaced_formula1);
+
+        let replaced_formula2 = formula2
+            .chars()
+            .map(|c| {
+                if let Some(&idx) = letter_to_index.get(&c) {
+                    bits[idx].to_string()
+                } else {
+                    c.to_string()
+                }
+            })
+            .collect::<String>();
+        let result2 = eval_formula(&replaced_formula2);
+        if result1 != result2 {
+            return false;
+        }
+    }
+    return true;
+}
+
 pub fn generate_symbolic_rpn(max_length: u8) -> String {
     let mut result: String = String::new();
     let mut rng = rand::rng();
@@ -113,4 +204,16 @@ pub fn generate_evaluated_rpn(max_length: u8) -> String {
         }
     }
     result.chars().rev().collect()
+}
+
+pub fn negation_normal_form(formula: &str) -> String {
+    let btree = conversion::rpn_to_btree(formula);
+    let btree = rewriter::btree_to_fnn(&btree);
+    conversion::btree_to_rpn(&btree)
+}
+
+pub fn conjunctive_normal_form(formula: &str) -> String {
+    let btree = conversion::rpn_to_btree(formula);
+    let btree = rewriter::btree_to_cnf(&btree);
+    conversion::btree_to_rpn(&btree)
 }

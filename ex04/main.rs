@@ -20,6 +20,9 @@ fn basic_formula_truth_table() {
     println!("Formula is : {}", "H!");
     print_truth_table("H!");
     println!();
+    println!("Formula is : {}", "AAˆ");
+    print_truth_table("AAˆ");
+    println!();
 }
 
 fn random_formula_truth_table() {

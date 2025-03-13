@@ -21,7 +21,7 @@ fn print_header(values: &Vec<char>) {
 pub fn print_truth_table(formula: &str) {
     let mut variables = Vec::new();
     for c in formula.chars() {
-        if c.is_ascii_uppercase() && !variables.contains(&c) {
+        if ('A'..='Z').contains(&c) && !variables.contains(&c) {
             variables.push(c);
         }
     }

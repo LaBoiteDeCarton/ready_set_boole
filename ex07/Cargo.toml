@@ -1,0 +1,11 @@
+[package]
+name = "ex07"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+boolean_algebra = { path = "../boolean_algebra" }
+
+[[bin]]
+name = "ex07"
+path = "main.rs"
