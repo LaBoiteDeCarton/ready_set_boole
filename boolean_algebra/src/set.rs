@@ -44,7 +44,7 @@ where
     let mut result: Vec<T> = Vec::new();
     for set in sets {
         for element in set {
-            if !set1.contains(element) {
+            if !set1.contains(element) && !result.contains(element) {
                 result.push(element.clone());
             }
         }
