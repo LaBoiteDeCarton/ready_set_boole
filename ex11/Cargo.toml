@@ -1,0 +1,12 @@
+[package]
+name = "ex11"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+zorder = "0.2.2"
+rand = "0.9.0"
+
+[[bin]]
+name = "ex10"
+path = "main.rs"
