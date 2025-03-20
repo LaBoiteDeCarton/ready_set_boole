@@ -1,1 +1,0 @@
-/Users/daniel_mercadiel/Documents/42/Project++/ready_set_bool/ex10/target/debug/ex10: /Users/daniel_mercadiel/Documents/42/Project++/ready_set_bool/ex10/functions.rs /Users/daniel_mercadiel/Documents/42/Project++/ready_set_bool/ex10/main.rs
